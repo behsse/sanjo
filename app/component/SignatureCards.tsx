@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import { ShoppingCart } from 'lucide-react';
+import { Salad } from 'lucide-react';
 
 type Props = {
     name : string,
@@ -25,6 +26,7 @@ const SignatureCards = (props : Props) => {
         name: props.name,
         image: props.image,
         price: props.price,
+        ingredient : props.ingredient,
         quantity: 1
       };
       productList.push(newProduct);
@@ -43,7 +45,10 @@ const SignatureCards = (props : Props) => {
       <Image src={props.image} alt='' width={150} height={150}/>
       <div className='flex justify-between items-center w-full px-12'>
         <p className='text-xl'>{props.price}€</p>
-        <button className='bg-background p-2.5 w-9 h-9 text-foreground rounded-full flex items-center justify-center transition-all hover:bg-background/90' onClick={AddCart}><ShoppingCart/></button>
+        <div className='flex gap-4'>
+          <button className='bg-background p-2.5 w-9 h-9 text-foreground rounded-full flex items-center justify-center transition-all hover:bg-background/90'><Salad/></button>
+          <button className='bg-background p-2.5 w-9 h-9 text-foreground rounded-full flex items-center justify-center transition-all hover:bg-background/90' onClick={AddCart}><ShoppingCart/></button>
+        </div>
       </div>
     </div>
   )

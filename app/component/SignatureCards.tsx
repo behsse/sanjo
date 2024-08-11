@@ -4,6 +4,7 @@ import { ShoppingCart } from 'lucide-react';
 import { Salad } from 'lucide-react';
 
 type Props = {
+    id : number,
     name : string,
     japName : string,
     price : string,
@@ -23,6 +24,7 @@ const SignatureCards = (props : Props) => {
       productList[productIndex].quantity += 1;
     } else {
       const newProduct = {
+        id : props.id,
         name: props.name,
         image: props.image,
         price: props.price,

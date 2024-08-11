@@ -40,12 +40,18 @@ const Signature = () => {
   };
 
   return (
-    <div className='flex items-center justify-center h-[100vh]'>
-      <Slider {...settings} className="w-2/3">
-        {signatureProduct.map((product) => (
-          <SignatureCards key={product.id} name={product.name} japName={product.japaneseName} image={product.image} price={product.price.toFixed(2)} ingredient={product.ingredients}/>
-        ))}
-      </Slider>
+    <div className='h-[100vh]'>
+      <div className='p-12 text-right mb-32'>
+        <p className='text-red-600 text-2xl'>オリジナルの作品</p>
+        <p className='text-6xl'>Signature</p>
+      </div>
+      <div className='flex items-center justify-center'>
+        <Slider {...settings} className="w-2/3">
+          {signatureProduct.map((product) => (
+            <SignatureCards key={product.id} id={product.id} name={product.name} japName={product.japaneseName} image={product.image} price={product.price.toFixed(2)} ingredient={product.ingredients}/>
+          ))}
+        </Slider>
+      </div>
     </div>
   );
 };

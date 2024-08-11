@@ -93,3 +93,7 @@
   .wm{
     writing-mode: vertical-lr;
   }
+
+  select:focus {
+    outline: none;
+  }

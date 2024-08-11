@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Trash2 } from 'lucide-react';
 
 interface Product {
+  id : number;
   name: string;
   image: string;
   price: number;
@@ -14,7 +15,9 @@ interface Product {
 export default function Panier(){
 
   const [storedProduct, setStoredProduct] = useState<Product[]>([]);
-  
+
+  const fraisLivraison = 4.30;
+
   useEffect(() => {
     const product = localStorage.getItem("cart");
     if (product) {
@@ -22,11 +25,18 @@ export default function Panier(){
     }
   }, []);
 
-  const deleteCart = () => {
-    localStorage.removeItem("cart")
-    setStoredProduct([]);
-  }
-
+  const deleteProduct = (id: number) => {
+    const cart = [...storedProduct];
+    if (cart) {
+      const index = cart.findIndex(item => item.id === id);
+      if (index !== -1) {
+        cart.splice(index, 1); 
+        setStoredProduct(cart);
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }
+    }
+  };
+  
   const handleQuantityChange = (index: number, newQuantity: number) => {
     const updatedProducts = [...storedProduct];
     updatedProducts[index].quantity = newQuantity;
@@ -34,8 +44,13 @@ export default function Panier(){
     localStorage.setItem("cart", JSON.stringify(updatedProducts));
   };
 
-  const calculateTotal = () => {
-    return storedProduct.reduce((acc, product) => acc + product.price * product.quantity, 0).toFixed(2);
+  const calculateTotal = (livraison : boolean) => {
+    if(livraison){
+      return storedProduct.reduce((acc, product) => acc + product.price * product.quantity + fraisLivraison, 0).toFixed(2);
+    }
+    else{
+      return storedProduct.reduce((acc, product) => acc + product.price * product.quantity, 0).toFixed(2);
+    }
   };
 
   return(
@@ -56,25 +71,26 @@ export default function Panier(){
                       </div>
                       <div className='w-full flex justify-between items-center'>
                         <p className='flex gap-4'>Quantité : 
-                        <select 
-                            name="" 
-                            id="" 
-                            className='text-foreground bg-transparent'
-                            value={product.quantity}
-                            onChange={(e) => handleQuantityChange(index, Number(e.target.value))}
-                          >
-                            {Array.from({ length: 10 }, (_, i) => i + 1).map((value) => (
-                              <option 
-                                key={value} 
-                                value={value} 
-                                className='text-background'
-                              >
-                                {value}
-                              </option>
-                            ))}
-                          </select>
+                            <select 
+                                name="" 
+                                id="" 
+                                className='text-foreground bg-transparent outline-offset-0 cursor-pointer'
+                                value={product.quantity}
+                                onChange={(e) => handleQuantityChange(index, Number(e.target.value))}
+                                >
+                                {Array.from({ length: 10 }, (_, i) => i + 1).map((value) => (
+                                  <option 
+                                  key={value} 
+                                  value={value} 
+                                  className='text-background flex items-center'
+                                  >
+                                    {value}
+                                    
+                                  </option>
+                                ))}
+                              </select>
                           </p>  
-                        <button className='p-2.5 w-9 h-9 text-foreground rounded-full flex items-center justify-center transition-all hover:bg-background/90'><Trash2/></button>
+                        <button className='p-2.5 w-9 h-9 text-foreground rounded-full flex items-center justify-center transition-all hover:bg-background/90' onClick={() => deleteProduct(product.id)}><Trash2/></button>
                       </div>
                     </div>
                   </div>
@@ -86,9 +102,6 @@ export default function Panier(){
             <p>Il n&apos;y a aucun article dans ton panier.</p>
           }
           </div>
-          <div className='flex justify-end w-full'>
-            <button onClick={deleteCart} className='w-1/4 bg-foreground text-background rounded-xl p-4 transition hover:bg-foreground/85'>Supprimer le panier</button>
-          </div>
       </div>
       <div className='grid gap-8 w-1/5 h-full'>
         <p className='text-xl font-semibold'>Récapitulatif</p>
@@ -98,12 +111,18 @@ export default function Panier(){
           <button className='bg-foreground text-background rounded-xl px-4 py-2 transition hover:bg-foreground/85'>Appliquer</button>
         </div>
         <div className='flex justify-between'>
+          <p>Sous-total</p>
+          {storedProduct.length > 0 ? <p>{calculateTotal(false)}€</p> : <p>-</p>}
+        </div>
+        <div className='flex justify-between'>
+          <p>Frais de livraison</p>
+          {storedProduct.length > 0 ? <p>{fraisLivraison.toFixed(2)}€</p> : <p>-</p>}
+        </div>
+        <div className='flex justify-between'>
           <p>Total</p>
-          <div>
-            {storedProduct.length > 0 ? 
-              <p>{calculateTotal()}€</p>: <p>-</p>
-            }
-          </div>
+          {storedProduct.length > 0 ? 
+            <p>{calculateTotal(true)}€</p>: <p>-</p>
+          }
         </div>
         <button className='bg-foreground text-background rounded-xl p-4 transition hover:bg-foreground/85'>Paiement</button>
       </div>

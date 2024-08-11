@@ -90,10 +90,33 @@
     margin: 0 5% !important;
   }
 
+  .slick-prev::before,.slick-next::before{
+    display:none;
+     
+  }
+
   .wm{
     writing-mode: vertical-lr;
   }
 
   select:focus {
     outline: none;
+  }
+
+  .card{
+    transform-style: preserve-3d;
+    transition: all 0.8s ease;
+  }
+
+  .front{
+    backface-visibility: hidden;
+  }
+  
+  .back{
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+  }
+  
+  .cardFlip{
+    transform: rotateY(-180deg);
   }

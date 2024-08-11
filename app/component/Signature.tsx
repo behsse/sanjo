@@ -1,16 +1,17 @@
 "use client"
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Product } from '@/libs/types';
-import Image from 'next/image';
 import SignatureCards from './SignatureCards';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Arrow } from './Arrow';
 
 const Signature = () => {
   const [signatureProduct, setSignatureProduct] = useState<Product[]>([]);
-
+  const sliderRef = useRef<Slider | null>(null);
+  
   useEffect(() => {
     const fetchSignatureProduct = async () => {
       try {
@@ -36,7 +37,8 @@ const Signature = () => {
     slidesToScroll: 1,
     speed: 500,
     centerPadding: "0",    
-    
+    nextArrow: <Arrow onClick={() => sliderRef.current?.slickNext()}/>,
+    prevArrow: <Arrow left={true} onClick={() => sliderRef.current?.slickPrev()}/>
   };
 
   return (
@@ -46,9 +48,9 @@ const Signature = () => {
         <p className='text-6xl'>Signature</p>
       </div>
       <div className='flex items-center justify-center'>
-        <Slider {...settings} className="w-2/3">
+        <Slider {...settings} ref={sliderRef} className="w-2/3">
           {signatureProduct.map((product) => (
-            <SignatureCards key={product.id} id={product.id} name={product.name} japName={product.japaneseName} image={product.image} price={product.price.toFixed(2)} ingredient={product.ingredients}/>
+            <SignatureCards key={product.id} id={product.id} name={product.name} japName={product.japaneseName} image={product.image} price={product.price.toFixed(2)} ingredients={product.ingredients}/>
           ))}
         </Slider>
       </div>

@@ -1,7 +1,6 @@
 "use server"
 
-import prisma from "@/libs/prisma"
-import { Product } from "@/libs/types";
+import prisma from "@/libs/prisma";
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {

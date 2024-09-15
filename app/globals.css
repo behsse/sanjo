@@ -90,9 +90,14 @@
     margin: 0 5% !important;
   }
 
+  @media screen and (max-width: 375px) {
+    .slick-list{
+      margin: 0 1% !important;
+    }
+  }
+
   .slick-prev::before,.slick-next::before{
-    display:none;
-     
+    display:none;     
   }
 
   .wm{

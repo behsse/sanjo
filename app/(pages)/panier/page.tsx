@@ -54,8 +54,8 @@ export default function Panier(){
   };
 
   return(
-    <div className='flex w-full h-full justify-center p-10 gap-16'>
-      <div className='grid gap-8 h-full w-1/2'>
+    <div className='flex w-full h-full justify-center p-10 gap-16 lg:justify-between max-md:grid max-md:justify-normal max-[425px]:p-2'>
+      <div className='grid gap-8 h-full w-1/2 max-md:w-full'>
         <p className='text-xl font-semibold'>Panier</p>
         <div className='grid gap-8'>
           {storedProduct.length > 0 ? 
@@ -103,11 +103,11 @@ export default function Panier(){
           }
           </div>
       </div>
-      <div className='grid gap-8 w-1/5 h-full'>
+      <div className='grid gap-8 w-1/5 h-full lg:w-1/2 max-md:w-full'>
         <p className='text-xl font-semibold'>Récapitulatif</p>
         <p>As-tu un code promo ?</p>
-        <div className='flex justify-between gap-4'>
-          <input type="text" name="" id="" className='rounded-xl bg-foreground text-background px-4'/>
+        <div className='flex justify-between gap-4 max-[320px]:flex-col'>
+          <input type="text" name="" id="" className='rounded-xl bg-foreground text-background px-4 max-[320px]:py-2'/>
           <button className='bg-foreground text-background rounded-xl px-4 py-2 transition hover:bg-foreground/85'>Appliquer</button>
         </div>
         <div className='flex justify-between'>

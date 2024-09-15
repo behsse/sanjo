@@ -1,3 +1,6 @@
+"use client"
+
+import { useEffect } from "react";
 import Header from "./component/Header";
 import Signature from "./component/Signature";
 

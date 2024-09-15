@@ -13,7 +13,6 @@ const Signature = () => {
   const [signatureProduct, setSignatureProduct] = useState<Product[]>([]);
   const sliderRef = useRef<Slider | null>(null);
   const [loading, setLoading] = useState(true);
-  const isLoading = sessionStorage.getItem("isLoading");
 
   useEffect(() => {
     const fetchSignatureProduct = async () => {
@@ -35,7 +34,7 @@ const Signature = () => {
   useEffect(() => { 
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 500);
     sessionStorage.setItem("isLoading", "true");
   }, []);
 
@@ -91,7 +90,7 @@ const Signature = () => {
       </div>
       <div className='flex items-center justify-center'>
         <Slider {...settings} ref={sliderRef} className="w-3/5 max-[1024px]:w-3/4 max-[768px]:w-full">
-          {loading && isLoading === "false"
+          {loading
             ? Array.from({ length: 4 }).map((_, index) => (
                 <SkeletonSignatureCards key={index} />
               ))
